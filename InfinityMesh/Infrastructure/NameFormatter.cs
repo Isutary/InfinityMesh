@@ -12,7 +12,7 @@
                     return "Hillary Clinton";
                 case "JB":
                     return "Joe Biden";
-                case "JFk":
+                case "JFK":
                     return "John F. Kennedy";
                 case "JR":
                     return "Jack Randall";
