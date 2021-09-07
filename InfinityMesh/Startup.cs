@@ -1,6 +1,7 @@
 using InfinityMesh.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,7 +13,11 @@ namespace InfinityMesh
         {
             services.AddSingleton<IFileReader, FileReader>();
             services.AddSingleton<IFormatter, NameFormatter>();
-            services.AddControllers();
+            services.AddControllersWithViews();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -22,6 +27,12 @@ namespace InfinityMesh
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -29,6 +40,16 @@ namespace InfinityMesh
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
         }
     }

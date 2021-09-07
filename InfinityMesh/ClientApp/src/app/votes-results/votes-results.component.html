@@ -1,0 +1,16 @@
+<div *ngFor="let city of results">
+  {{city.name}}
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Votes</th>
+      <th>Percentage</th>
+      <th>Error</th>
+    </tr>
+    <tr *ngFor="let candidate of city.candidates">
+      <td>{{candidate.name}}</td>
+      <td>{{candidate.votes}}</td>
+      <td>{{candidate.percentage}}</td>
+    </tr>
+  </table>
+</div>
